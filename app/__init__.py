@@ -39,21 +39,27 @@ def create_app():
         if request.method == "POST":
             request_key = request.args.get("api_key")
             api_key = APIKey.query.filter(APIKey.str == request_key).first()
+
+            # is api key valid ?
             if api_key is None:
                 return {
                            'success': False,
                            'message': 'Invalid or missing api_key'
                        }, status.HTTP_401_UNAUTHORIZED
+
+            # does request have an utterance param ?
             utterance = request.args.get("utterance")
-            need_probs = request.args.get("needProbs")
-            need_probs = need_probs == "True" or need_probs == "true"
             if utterance is None:
                 return {
                     'success': False,
                     'message': 'missing POST param: utterance'
                 }
+
+            # classify user utterance
+            need_probs = request.args.get("needProbs")
+            need_probs = need_probs == "True" or need_probs == "true"
             text = pre_process(utterance.strip())
-            predict = model.predict([input])
+            predict = model.predict([text])
             output = {
                 'success': True,
                 'utterance': utterance,
