@@ -15,6 +15,7 @@ def pre_process(text):
 
 def create_app():
     from app.models import APIKey
+    from app.models import Utterances
 
     db_path = os.path.join(os.path.dirname(__file__), 'app.db')
     db_uri = 'sqlite:///{}'.format(db_path)
@@ -70,6 +71,10 @@ def create_app():
                 output['probs'] = {}
                 for i, class_ in enumerate(model.classes_):
                     output['probs'][class_] = probs[0][i] * 100
+
+            # save to db
+            u = Utterances(utterance)
+            u.save_to_db()
             return output, status.HTTP_200_OK
 
     return app
