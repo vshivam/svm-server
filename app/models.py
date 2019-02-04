@@ -21,3 +21,10 @@ class APIKey(db.Model):
 class Utterances(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     utterance = db.Column(db.String)
+
+    def __init__(self, utterance):
+        self.utterance = utterance
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
