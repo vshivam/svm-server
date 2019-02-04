@@ -18,4 +18,5 @@ def show_keys():
 
 
 if __name__ == '__main__':
-    print ('This is the key manager. Use it to create new keys or list all')
+   # generate_new_key()
+   show_keys()
