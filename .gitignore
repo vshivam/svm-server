@@ -2,3 +2,5 @@
 *.pyc
 venv/
 *.db
+certs/
+logs/
